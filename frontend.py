@@ -16,7 +16,7 @@ if not st.session_state.registered:
     password = st.text_input("Your password ")
     if email and password and st.button("Register"):
         res_re = st.session_state.session.post(
-            "http://localhost:8000/create_account",
+            "https://skillshare-backend-apha.onrender.com/create_account",
             json = {"email":email, "hashed_password":password}
         )
         st.session_state.registered = True
@@ -30,7 +30,7 @@ elif not st.session_state.logged_in:
     password = st.text_input("Password", type="password")
     if st.button("Login"):
         response = st.session_state.session.post(
-            "http://localhost:8000/login",
+            "https://skillshare-backend-apha.onrender.com/login",
             json={"email": email, "hashed_password": password}
         )
         if response.status_code == 200:
@@ -46,7 +46,7 @@ elif not st.session_state.logged_in:
 
 else:
     st.title("Welcome! What do you want to do?")
-    st.session_state.session.post(f"http://localhost:8000/refresh")
+    st.session_state.session.post(f"https://skillshare-backend-apha.onrender.com/refresh")
     # Initialize the flags if they don't exist
     if "search_clicked" not in st.session_state:
         st.session_state.search_clicked = False
@@ -76,7 +76,7 @@ else:
     if st.session_state.search_clicked:
         query = st.text_input("Enter username to search")
         if st.button("Search"):
-            response = st.session_state.session.get(f"http://localhost:8000/search?username={query}")
+            response = st.session_state.session.get(f"https://skillshare-backend-apha.onrender.com/search?username={query}")
             if response.status_code == 200:
                 st.write(response.json())
                 st.session_state.search_clicked = False
@@ -89,7 +89,7 @@ else:
         update_text = st.text_area("Write your update here")
         if st.button("Post"):
             response = st.session_state.session.post(
-                "http://localhost:8000/post",
+                "https://skillshare-backend-apha.onrender.com/post",
                 json={"post": update_text}
             )
             if response.status_code == 200:
@@ -103,6 +103,6 @@ else:
         new_skill = st.text_area("New skill")
         l = [new_skill]
         if st.button("Post"):
-            response = st.session_state.session.post(f"http://localhost:8000/post-skill", json = {"skills":l})
+            response = st.session_state.session.post(f"https://skillshare-backend-apha.onrender.com/post-skill", json = {"skills":l})
             st.success("Posted skill")
             st.session_state.skill_clicked = False
